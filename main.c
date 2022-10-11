@@ -18,37 +18,43 @@ void exibe(int w1, int w2);
 int marca(int lin, int col, int vez);
 int vitoria(int lin, int col);
 int main(void){
-	int vez=2, lin=0, col=0, ctr=FAIL, z=0, w1=0,w2=0;
+	int vez, lin, col, ctr,z, w1=0,w2=0;
+	char run='s';
 	setlocale(LC_ALL, "Portuguese_Brazil");
 	name(ply1, ply2);
-	newTab();
-	while(ctr == FAIL && z<9){
-		vez == 1 ? vez++ : vez--;
+	while(run=='s' || run=='S'){
+		newTab();
+		z = 0;
+		vez=2;
+		ctr=FAIL;
 		do{
-			system("cls");
-			exibe(w1,w2);
-			printf("\n\n Vez de %s jogar!", vez == 1 ? ply1 : ply2);
-			printf("\n Defina a linha: ");
-			scanf("%d", &lin);
-			printf(" Defina a coluna: ");
-			scanf("%d", &col);
-		} while(marca(lin, col, vez) == FAIL);
-		z++;
-		if (z > 4){
-			ctr = vitoria(lin, col);
+			vez == 1 ? vez++ : vez--;
+			do{
+				system("cls");
+				exibe(w1,w2);
+				printf("\n\n Vez de %s jogar!", vez == 1 ? ply1 : ply2);
+				printf("\n Defina a linha: ");
+				scanf("%d", &lin);
+				printf(" Defina a coluna: ");
+				scanf("%d", &col);
+			} while(marca(lin, col, vez) == FAIL);
+			z++;
+			if (z > 4){
+				ctr = vitoria(lin, col);
+			}
+		}while(ctr == FAIL && z<9);
+		system("cls");
+		if(ctr == FAIL){
+			printf("\n\n DEU VELHA!\n\n");
 		}
+		else{
+			vez == 1 ? w1++ : w2++;
+			printf(" VITÓRIA DE %s!\n\n", (vez == 1 ? ply1 : ply2));
+		}
+		exibe(w1,w2);
+		printf("\n\n Digite 's' para jogar novamente.");
+		run = getch();
 	}
-	system("cls");
-	
-	if(ctr == FAIL){
-		printf("\n\n DEU VELHA!\n\n");
-	}
-	else{
-		vez == 1 ? w1++ : w2++;
-		printf("\n\n VITÓRIA DE %s!\n\n", (vez == 1 ? ply1 : ply2));
-	}
-	exibe(w1,w2);
-	
 	return 0;
 }
 void name(){
@@ -72,7 +78,7 @@ void newTab(void){
 }
 void exibe(int w1, int w2){
 	int i, a;
-	printf("%s: %d vitórias\n%s: %d vitórias\n\n", ply1, w1,ply2, w2);
+	printf(" %s: %d vitórias\n %s: %d vitórias\n\n", ply1, w1,ply2, w2);
 	for(i=0; i<TAM_MAT; i++){
 		printf("   ");
 		for(a=0; a<TAM_MAT; a++){
