@@ -1,6 +1,5 @@
 /*
  Falta fazer:
- - Função que checa se o jogo deu velha
  - Não deixar que os usuários digitem letras nas coordenadas
  - Não deixar que os jogadores tenham o mesmo nome
  - Não deixar que os usuários enviem ' ' no lugar do nome ou das coordenadas
@@ -12,32 +11,31 @@
 #include <locale.h>
 #define TAM_MAT 4
 #define TAM_NAME 20
-#define TRUE 500
-#define FALSE 340
+#define OK 200
+#define FAIL 418
 char tab[TAM_MAT][TAM_MAT];
 void name(char ply1[TAM_NAME], char ply2[TAM_NAME]);
 void newTab(void);
 void exibeTab();
-int marca(unsigned int lin, unsigned int col, unsigned int vez);
-int vitoria(unsigned int lin, unsigned int col);
-int velha(void);
+int marca(int lin, int col, int vez);
+int vitoria(int lin, int col);
 int main(void){
-	int vez=2, lin=0, col=0, ctr=FALSE, z=0;
+	int vez=2, lin=0, col=0, ctr=FAIL, z=0;
 	char ply1[TAM_NAME], ply2[TAM_NAME];
 	setlocale(LC_ALL, "Portuguese_Brazil");
 	name(ply1, ply2);
 	newTab();
-	while(ctr == FALSE){
+	while(ctr == FAIL && z<9){
 		vez == 1 ? vez++ : vez--;
 		do{
 			system("clear");
 			exibeTab();
-			printf("\n\nVez de %s jogar!", vez == 1 ? ply1 : ply2);
-			printf("\nDefina a linha: ");
+			printf("\n\n Vez de %s jogar!", vez == 1 ? ply1 : ply2);
+			printf("\n Defina a linha: ");
 			scanf("%d", &lin);
-			printf("Defina a coluna: ");
+			printf(" Defina a coluna: ");
 			scanf("%d", &col);
-		} while(marca(lin, col, vez) == FALSE);
+		} while(marca(lin, col, vez) == FAIL);
 		z++;
 		if (z > 4){
 			ctr = vitoria(lin, col);
@@ -45,7 +43,8 @@ int main(void){
 	}
 	system("clear");
 	exibeTab();
-	printf("\nParabéns, %s, você ganhou!\n", (vez == 1 ? ply1 : ply2));
+	printf(ctr == FAIL ? "\n\n Deu velha!\n" : 
+		"\n\n Parabéns, %s, você ganhou!\n", (vez == 1 ? ply1 : ply2));
 	return 0;
 }
 void name(char ply1[TAM_NAME], char ply2[TAM_NAME]){
@@ -67,22 +66,23 @@ void newTab(void){
 void exibeTab(){
 	int i, a;
 	for(i=0; i<TAM_MAT; i++){
+		printf("   ");
 		for(a=0; a<TAM_MAT; a++){
-			printf("%c|", tab[i][a]);
+			printf("%c", tab[i][a]);
+			printf( a != TAM_MAT-1 ? "|" : "");
 		}
-		printf( i != TAM_MAT-1 ? "\n---------\n" : "");
+		printf( i != TAM_MAT-1 ? "\n  ----------\n" : "");
 	}
 }
 int marca(int lin, int col, int vez){
 	if(tab[lin][col] != ' ' || (lin>=TAM_MAT || col >= TAM_MAT)){
-		return FALSE;
+		return FAIL;
 	}
 	tab[lin][col] = (vez == 1 ? 'X' : 'O');
-	return TRUE;
+	return OK;
 }
 int vitoria(int lin, int col){
-	int nLin=1, nCol=1, nDp=0, nDs=0,i;
-	
+	int nLin=1, nCol=1, nDp=1, nDs=1,i;
 	for(i=1; i<TAM_MAT; i++){
 		if(tab[lin][col] == tab[lin][i] && col != i){
 			nLin++;
@@ -92,22 +92,22 @@ int vitoria(int lin, int col){
 		}
 	}
 	if (nLin == 3 || nCol == 3){
-		return TRUE;
+		return OK;
 	}
 	else if(lin == col || ( (lin * 3) == col || lin == (col * 3))){
 		for(i=1; i<TAM_MAT; i++){
-			if(tab[lin][col] == tab[i][i]){
+			if(tab[lin][col] == tab[i][i] && lin != i){
 				nDp++;
 			}
-			if(tab[lin][col] == tab[i][TAM_MAT-i]){
+			if(tab[lin][col] == tab[i][TAM_MAT-i] && lin != i){
 				nDs++;
 			}
 		}
 	}
 	if (nDp == 3 || nDs == 3){
-		return TRUE;
+		return OK;
 	}
 	else{
-		return FALSE;
+		return FAIL;
 	}
 }
