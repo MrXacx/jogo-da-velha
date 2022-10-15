@@ -2,7 +2,7 @@
 #include <stdlib.h> // usar comandos de prompt (system())
 #include <locale.h> // permite caracteres especiais
 #include <string.h> // possibilita operações especiais com string  (strcmp())
-//#include <conio.h> // para usar o getch();
+#include <conio.h> // para usar o getch();
 #define TAM_MAT 4
 #define TAM_NAME 20
 #define OK 200
