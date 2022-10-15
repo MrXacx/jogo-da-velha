@@ -66,11 +66,12 @@ int main(void){
 void name(){
 	
 	printf(" \nDefina o nome do jogador 1: ");
-	gets(ply1);
+	fgets(ply1, 20, stdin);
 	do{
 		system("cls");
 		printf(" Defina o nome do jogador 2: ");
-		gets(ply2);
+		fflush(stdin);
+		fgets(ply2, 20, stdin);
 	}while(strcmp(ply1,ply2)==0);
 }
 
