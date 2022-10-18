@@ -18,13 +18,13 @@ int vitoria(int lin, int col); // analisa vitória
 int main(void){
 	
 	int vez=2, lin, col, ctr=FAIL,z=0, w1=0,w2=0;
-	char run=10;
+	char run='s';
 	
 	setlocale(LC_ALL, "Portuguese_Brazil"); 
 	printf("\tJOGO DA VELHA\n\n ATENÇÃO: as linhas estão dispostas na HORIZONTAL, enquanto as colunas estão na VERTICAL\n");
     name();
 	
-	while((int)run==10){
+	while(run=='s' || run=='S' ){
 		newTab();
 
 		do{
@@ -54,8 +54,8 @@ int main(void){
 		}
 		
 		exibe(w1,w2);
-		printf("\n\n Pressione ENTER para jogar novamente.");
-		//run = getch();
+		printf("\n\n Pressione 'S' para jogar novamente.");
+		run = getch();
 		z = 0;
 		vez == 1 ? vez++ : vez--;
 		ctr=FAIL;
